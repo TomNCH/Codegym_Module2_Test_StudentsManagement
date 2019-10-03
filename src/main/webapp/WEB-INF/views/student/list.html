@@ -9,8 +9,8 @@
 <h1>Students</h1>
 <form>
     Search by class name:
-        <select  th:field="*{classes}">
-            <option name="s" th:each="c : ${classes}" th:value="${c.id}" th:text="${c.name}"></option>
+        <select name="s" th:field="*{classes}">
+            <option  th:each="c : ${classes}" th:value="${c.name}" th:text="${c.name}"></option>
         </select>
     <input type="submit" value="Search"/>
 </form><br/>

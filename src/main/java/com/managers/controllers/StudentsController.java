@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,8 +26,13 @@ public class StudentsController {
     private ClassesService classesService;
 
     @GetMapping("/students")
-    public ModelAndView listStudents(@PageableDefault(value = 10, sort = "name") Pageable pageable){
-        Page<Students> students = studentsService.findAll(pageable);
+    public ModelAndView listStudents(@RequestParam("s") Optional<String> s,@PageableDefault(value = 10, sort = "fullname") Pageable pageable){
+        Page<Students> students;
+        if (s.isPresent()){
+            students = studentsService.findAllByClasses_Name(s.get(), pageable);
+        }else {
+            students = studentsService.findAll(pageable);
+        }
         ModelAndView modelAndView = new ModelAndView("/student/list");
         modelAndView.addObject("students", students);
         return modelAndView;
@@ -40,12 +46,17 @@ public class StudentsController {
     }
 
     @PostMapping("/create-student")
-    public ModelAndView saveStudent(@ModelAttribute("student") Students students){
-        studentsService.save(students);
+    public ModelAndView saveStudent(@ModelAttribute("student") Students students, BindingResult bindingResult){
         ModelAndView modelAndView = new ModelAndView("/student/create");
-        modelAndView.addObject("student", new Students());
-        modelAndView.addObject("message", "New student created successfully");
-        return modelAndView;
+        if (bindingResult.hasErrors()){
+            modelAndView.addObject("message", "New student created error");
+            return modelAndView;
+        }else {
+            studentsService.save(students);
+            modelAndView.addObject("student", new Students());
+            modelAndView.addObject("message", "New student created successfully");
+            return modelAndView;
+        }
     }
 
     @GetMapping("/edit-customer/{id}")
