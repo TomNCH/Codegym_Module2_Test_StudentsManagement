@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Students list</title>
+</head>
+<body>
+<a href="/create-student">Create new student</a>
+<h1>Students</h1>
+<form>
+    Search by class name:
+        <select  th:field="*{classes}">
+            <option name="s" th:each="c : ${classes}" th:value="${c.id}" th:text="${c.name}"></option>
+        </select>
+    <input type="submit" value="Search"/>
+</form><br/>
+<table border="1">
+    <tr>
+        <th>Full name</th>
+        <th>Birth date</th>
+        <th>Address</th>
+        <th>Avatar</th>
+        <th>Class</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <th:block th:each="student : ${students}">
+        <tr>
+            <td th:text="${student.fullname}"></td>
+            <td th:text="${student.birthdate}"></td>
+            <td th:text="${student.address}"></td>
+            <td th:text="${student.avatar}"></td>
+            <td th:text="${student.classes.name}"></td>
+            <td><a th:href="@{/edit-student/__${student.id}__ }">Edit</a></td>
+            <td><a th:href="@{/delete-student/__${student.id}__ }">Delete</a></td>
+        </tr>
+    </th:block>
+</table>
+<div>
+    <a th:href="@{'/'(page=${students.number - 1})}" th:if="${students.hasPrevious()}">Previous</a>
+    <span th:text="${students.number + 1}"></span>/<span th:text="${students.totalPages}"></span>
+    <a th:href="@{'/'(page=${students.number + 1})}" th:if="${students.hasNext()}">Next</a>
+</div>
+<p>
+    <a href="/">Students list</a>
+</p>
+</body>
+</html>

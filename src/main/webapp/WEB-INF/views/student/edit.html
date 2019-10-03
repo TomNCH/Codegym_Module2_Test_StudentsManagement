@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit student</title>
+</head>
+<body>
+<h1>Edit student</h1>
+<p>
+    <a href="/students">Student list</a>
+</p>
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<form th:action="@{/edit-student}" th:object="${student}" method="post">
+    <input th:type="hidden" name="id" th:field="*{id}">
+    <table>
+        <tr>
+            <td>Full name:</td>
+            <td><input type="text" th:field="*{fullname}"/></td>
+        </tr>
+        <tr>
+            <td>Birth date:</td>
+            <td><input type="text" th:field="*{birthdate}"/></td>
+        </tr>
+        <tr>
+            <td>Address:</td>
+            <td><input type="text" th:field="*{address}"/></td>
+        </tr>
+        <tr>
+            <td>Avatar:</td>
+            <td><input type="text" th:field="*{avatar}"/></td>
+        </tr>
+        <tr>
+            <td>Class:</td>
+            <td>
+                <select name="classes">
+                    <option th:each="c : ${classes}"
+                            th:value="${c.id}"
+                            th:text="${c.name}"
+                            th:selected="(${c.id} == *{classes.id})"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Update student"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
