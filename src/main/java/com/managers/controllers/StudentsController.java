@@ -59,12 +59,12 @@ public class StudentsController {
         }
     }
 
-    @GetMapping("/edit-customer/{id}")
+    @GetMapping("/edit-student/{id}")
     public ModelAndView showEditForm(@PathVariable long id){
-        Students customer = studentsService.findById(id);
-        if (customer != null){
+        Students students = studentsService.findById(id);
+        if (students != null){
             ModelAndView modelAndView = new ModelAndView("/student/edit");
-            modelAndView.addObject("student", customer);
+            modelAndView.addObject("student", students);
             return modelAndView;
         }else {
             ModelAndView modelAndView = new ModelAndView("/error.404");
@@ -72,7 +72,7 @@ public class StudentsController {
         }
     }
 
-    @PostMapping("/edit-customer")
+    @PostMapping("/edit-student")
     public ModelAndView updateStudent(@ModelAttribute("student") Students students){
         studentsService.save(students);
         ModelAndView modelAndView = new ModelAndView("/student/edit");
@@ -81,12 +81,12 @@ public class StudentsController {
         return modelAndView;
     }
 
-    @GetMapping("/delete-customer/{id}")
+    @GetMapping("/delete-student/{id}")
     public ModelAndView showDeleteForm(@PathVariable long id){
-        Students student = studentsService.findById(id);
-        if (student != null){
+        Students students = studentsService.findById(id);
+        if (students != null){
             ModelAndView modelAndView = new ModelAndView("/student/delete");
-            modelAndView.addObject("student", student);
+            modelAndView.addObject("student", students);
             return modelAndView;
         }else{
             ModelAndView modelAndView = new ModelAndView("/error.404");
@@ -94,7 +94,7 @@ public class StudentsController {
         }
     }
 
-    @PostMapping("/delete-customer")
+    @PostMapping("/delete-student")
     public String deleteStudent(@ModelAttribute("student") Students students){
         studentsService.delete(students.getId());
         return "redirect:students";

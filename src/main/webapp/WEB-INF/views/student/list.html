@@ -9,7 +9,7 @@
 <h1>Students</h1>
 <form>
     Search by class name:
-        <select name="s" th:field="*{classes}">
+        <select name="s">
             <option  th:each="c : ${classes}" th:value="${c.name}" th:text="${c.name}"></option>
         </select>
     <input type="submit" value="Search"/>
@@ -42,7 +42,7 @@
     <a th:href="@{'/'(page=${students.number + 1})}" th:if="${students.hasNext()}">Next</a>
 </div>
 <p>
-    <a href="/">Students list</a>
+    <a href="/students">Students list</a>
 </p>
 </body>
 </html>
