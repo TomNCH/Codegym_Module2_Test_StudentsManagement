@@ -29,7 +29,10 @@
             <td th:text="${student.fullname}"></td>
             <td th:text="${student.birthdate}"></td>
             <td th:text="${student.address}"></td>
-            <td th:text="${student.avatar}"></td>
+            <td>
+                <img width="150px" height="150px" th:src="@{'/i/' + ${student.avatar}}">
+            </td>
+<!--            <td th:text="${student.avatar}"></td>-->
             <td th:text="${student.classes.name}"></td>
             <td><a th:href="@{/edit-student/__${student.id}__ }">Edit</a></td>
             <td><a th:href="@{/delete-student/__${student.id}__ }">Delete</a></td>
